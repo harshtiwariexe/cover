@@ -44,9 +44,8 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values: LoginFormValue) => {
-    await authClient.signUp.email(
+    await authClient.signIn.email(
       {
-        name: values.email,
         email: values.email,
         password: values.password,
         callbackURL: "/",

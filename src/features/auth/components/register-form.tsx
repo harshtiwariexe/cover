@@ -22,6 +22,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const registerSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -42,7 +44,23 @@ const RegisterForm = () => {
   });
 
   const onSubmit = async (values: RegisterFormValues) => {
-    console.log(values);
+    const defaultName = values.email.split("@")[0] || values.email;
+    await authClient.signUp.email(
+      {
+        name: defaultName,
+        email: values.email,
+        password: values.password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+      }
+    );
   };
 
   const isPending = form.formState.isSubmitting;
