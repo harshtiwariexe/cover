@@ -19,6 +19,8 @@ export const Page = () => {
     })
   );
 
+  const textAI = useMutation(trpc.testAi.mutationOptions());
+
   // const options = trpc.getWorkflows.queryOptions();
   // console.log("queryOptions:", options);
   // const { data, error, isLoading } = useQuery(options);
@@ -30,6 +32,9 @@ export const Page = () => {
       {JSON.stringify(data, null, 2)}
       <Button disabled={create.isPending} onClick={() => create.mutate()}>
         Create Workflow
+      </Button>
+      <Button disabled={textAI.isPending} onClick={() => textAI.mutate()}>
+        Generate
       </Button>
       <LogoutButton />
     </div>
